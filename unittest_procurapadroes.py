@@ -44,10 +44,6 @@ class PatternSearchTests:
         expected = [8]
         self.assertEqual(self.func(seq, pattern), expected)
 
-class TestBoyerMoore(PatternSearchTests, unittest.TestCase):
-    def setUp(self):
-        self.func = ps.boyer_moore
-
 class TestNaive(PatternSearchTests, unittest.TestCase):
     def setUp(self):
         self.func = ps.naive
@@ -56,7 +52,7 @@ class TestKMP(PatternSearchTests, unittest.TestCase):
     def setUp(self):
         self.func = ps.KMP
 
-    # Override the test_empty_pattern method for KMP as it's supposed to have an output that is different from the others
+    # KMP is supposed to return an empty list in this test, this overrides the common test during KMP testing
     def test_empty_pattern(self):
         seq = "ATAGCAGTACGTACGATACG"
         pattern = ""
@@ -67,10 +63,9 @@ class TestRabinKarp(PatternSearchTests, unittest.TestCase):
     def setUp(self):
         self.func = ps.rabin_karp
 
+class TestBoyerMoore(PatternSearchTests, unittest.TestCase):
+    def setUp(self):
+        self.func = ps.boyer_moore
+
 if __name__ == '__main__':
     unittest.main()
-
-
-
-
-

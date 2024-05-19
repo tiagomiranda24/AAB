@@ -1,4 +1,4 @@
-## Implementation of Naive Algorithm using a function call
+## Naive Algorithm
 def naive(seq, pattern):
     n = len(seq)
     m = len(pattern)
@@ -56,11 +56,11 @@ def KMP(seq, pattern):
             i += 1
             j += 1
         if j == m:
-            indices.append(i - j)               # Add the index where pattern starts in the sequence.
-            j = lps[j - 1] if j > 0 else 0     # Update j using the LPS array.
+            indices.append(i - j)               # Adds the index where pattern starts in the sequence
+            j = lps[j - 1] if j > 0 else 0      # Updates j using the LPS array
         elif i < n and pattern[j] != seq[i]:
             if j != 0:
-                j = lps[j - 1]                  # Update j using the LPS array.
+                j = lps[j - 1]                  # Updates j using the LPS array
             else:
                 i += 1
     return indices
@@ -87,10 +87,10 @@ def rabin_karp(seq, pattern):
 
 
 ## Boyer-Moore Algorithm
-# Fonte: Modificação de https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/
 def boyer_moore(seq, pattern):
     """
     Sequence pattern searching that uses Bad Character Heuristic of Boyer-Moore Algorithm
+    Fonte: Modificação de https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/
     """
     def badCharHeuristic(pattern):
         """
