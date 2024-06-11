@@ -1,5 +1,3 @@
-# Fonte: Modificação de https://wangyy395.medium.com/implement-a-trie-in-python-e8dd5c5fde3a com algumas funções adicionadas
-
 from graphviz import Digraph
 
 class TriesNode:
@@ -11,6 +9,9 @@ class TriesNode:
         self.isLeaf = False
 
 class Tries:
+    """
+    Source: Modification of code provided by https://wangyy395.medium.com/implement-a-trie-in-python-e8dd5c5fde3a with newly added functions.
+    """
     def __init__(self):
         """
         Initialize a Tries data structure.

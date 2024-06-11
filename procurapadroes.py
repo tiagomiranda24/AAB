@@ -90,7 +90,7 @@ def rabin_karp(seq, pattern):
 def boyer_moore(seq, pattern):
     """
     Sequence pattern searching that uses Bad Character Heuristic of Boyer-Moore Algorithm
-    Fonte: Modificação de https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/
+    Source: Modification of code provided by https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/
     """
     def badCharHeuristic(pattern):
         """
