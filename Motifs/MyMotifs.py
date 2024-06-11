@@ -131,11 +131,11 @@ class MyMotifs:
     
     def probAllPositions(self, seq: str) -> list[float]:
         """
-        Calcula a probabilidade do motivo aparecer em cada posição possível da sequência especificada.
+        Calcula a probabilidade do motif aparecer em cada posição possível da sequência especificada.
         Args: 
-            Sequência de DNA na qual procurar o motivo.
+            Sequência de DNA na qual procurar o motif.
         Returns:
-            Lista de probabilidades do motivo aparecer em cada posição possível.
+            Lista de probabilidades do motif aparecer em cada posição possível.
         """
         res = []
         for k in range(len(seq) - self.size + 1):
@@ -145,11 +145,11 @@ class MyMotifs:
 
     def mostProbableSeq(self, seq: str) -> int:
         """
-        Encontra a posição mais provável para o motivo na sequência especificada.
+        Encontra a posição mais provável para o motif na sequência especificada.
         Args: 
-            Sequência de DNA na qual procurar o motivo.
+            Sequência de DNA na qual procurar o motif.
         Returns: 
-            Índice da posição mais provável para o motivo.
+            Índice da posição mais provável para o motif.
         """
         max_probability = -1.0
         max_index = -1

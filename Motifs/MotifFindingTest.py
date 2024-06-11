@@ -5,7 +5,6 @@ from MySeq import MySeq
 class MotifFinding_test(unittest.TestCase):
 
     def setUp(self):
-        # Define as três sequências de ADN para utilizar nos testes
         self.seq1 = MySeq("ATAGAGCTGA", "dna")
         self.seq2 = MySeq("ACGTAGATGA", "dna")
         self.seq3 = MySeq("AAGATAGGGG", "dna")
