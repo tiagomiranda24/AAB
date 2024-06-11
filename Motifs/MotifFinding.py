@@ -358,10 +358,13 @@ class MotifFinding:
 
 
 # tests
+import os
 
-def test1():  
+def test1():
+    script_dir = os.path.dirname(__file__)                      # Obtém diretoria do script
+    file_path = os.path.join(script_dir, "exemploMotifs.txt")   # Define a diretoria do ficheiro .txt
     sm = MotifFinding()
-    sm.readFile(r"C:\Users\tiago\OneDrive\Ambiente de Trabalho\Motifs\exemploMotifs.txt","dna")
+    sm.readFile(file_path,"dna")                                # Leitura do ficheiro .txt
     sol = [25,20,2,55,59]
     sa = sm.score(sol)
     print(sa)
@@ -391,8 +394,10 @@ def test2():
     print ("Score:" , mf.score(sol1))
 
 def test3():
+    script_dir = os.path.dirname(__file__)                      # Obtém diretoria do script
+    file_path = os.path.join(script_dir, "exemploMotifs.txt")   # Define a diretoria do ficheiro .txt
     mf = MotifFinding()
-    mf.readFile(r"C:\Users\tiago\OneDrive\Ambiente de Trabalho\Motifs\exemploMotifs.txt", "dna")
+    mf.readFile(file_path, "dna")                               # Leitura do ficheiro .txt
     print ("Branch and Bound:")
     sol = mf.branchAndBound()
     print ("Solution: " , sol)
@@ -400,8 +405,10 @@ def test3():
     print("Consensus:", mf.createMotifFromIndexes(sol).consensus())
 
 def test4():
+    script_dir = os.path.dirname(__file__)                      # Obtém diretoria do script
+    file_path = os.path.join(script_dir, "exemploMotifs.txt")   # Define a diretoria do ficheiro .txt
     mf = MotifFinding()
-    mf.readFile(r"C:\Users\tiago\OneDrive\Ambiente de Trabalho\Motifs\exemploMotifs.txt", "dna")
+    mf.readFile(script_dir, "dna")                              # Leitura do ficheiro .txt
     print("Heuristic stochastic")
     sol = mf.heuristicStochastic()
     print ("Solution: " , sol)
