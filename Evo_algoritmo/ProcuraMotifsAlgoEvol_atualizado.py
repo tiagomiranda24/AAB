@@ -39,7 +39,7 @@ class Popul:
         self.indivs = indivs if indivs is not None else []   # Lista de indivíduos na população
 
         if not self.indivs: #Se não houver indivíduos fornecidos
-            self.randomPopulation() # Inicializa a população aleatoriamente
+            self.randomPopul() # Inicializa a população aleatoriamente
 
     def getIndiv(self, index):  # Método para obter um indivíduo pelo índice
         return self.indivs[index] # Retorna o indivíduo na posição especificada
