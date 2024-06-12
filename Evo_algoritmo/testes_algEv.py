@@ -1,5 +1,5 @@
 import unittest
-from ProcuraMotifsAlgoEvol_atualizado import Indiv, Popul, EvolAlgorithm
+from ProcuraMotifsAlgoEvol import Indiv, Popul, EvolAlgorithm
 
 class TestIndiv(unittest.TestCase):
     def test_init(self):
@@ -36,7 +36,6 @@ class TestPopul(unittest.TestCase):
 class TestEvolAlgorithm(unittest.TestCase):
     def test_init_popul(self):
         algo = EvolAlgorithm(10, 5, 2, 5)
-        #self.assertIsNone(algo.popul)
         algo.initPopul(5)
         self.assertIsNotNone(algo.popul)
 

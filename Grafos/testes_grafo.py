@@ -1,4 +1,3 @@
-# test_grafo.py
 import unittest
 from grafo import GrafoDirigido
 

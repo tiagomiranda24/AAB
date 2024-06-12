@@ -1,5 +1,5 @@
 """
-author: miguelrocha
+Código adaptado do professor Miguel Rocha
 """
 
 def createMatZeros(nl: int, nc: int) -> list[list[int]]:
