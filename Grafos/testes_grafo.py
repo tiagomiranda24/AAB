@@ -90,5 +90,31 @@ class TestGrafoDirigido(unittest.TestCase):
         resultado = self.grafo.busca_em_largura('A')
         self.assertEqual(resultado, ['A', 'B', 'C'])
 
+class TestGrafoDirigido(unittest.TestCase):
+    def setUp(self):
+        # Criar instância de GrafoDirigido para uso nos testes
+        self.grafo = GrafoDirigido({
+            'A': [('B', 1), ('C', 4)],
+            'B': [('C', 2), ('D', 5)],
+            'C': [('D', 1)],
+            'D': []
+        })
+
+    def test_dijkstra(self):
+        # Verificar se as menores distâncias de A para todos os outros nós estão corretas
+        distancias = self.grafo.dijkstra('A')
+        self.assertEqual(distancias, {'A': 0, 'B': 1, 'C': 3, 'D': 4})
+
+    def test_caminho_mais_curto(self):
+        # Verificar se o caminho mais curto de A para D está correto
+        caminho = self.grafo.caminho_mais_curto('A', 'D')
+        self.assertEqual(caminho, ['A', 'B', 'C', 'D'])
+
+    def test_dijkstra_com_caminho(self):
+        # Verificar se as menores distâncias e os pais estão corretos para A
+        distancias, pais = self.grafo.dijkstra_com_caminho('A')
+        self.assertEqual(distancias, {'A': 0, 'B': 1, 'C': 3, 'D': 4})
+        self.assertEqual(pais, {'A': None, 'B': 'A', 'C': 'B', 'D': 'C'})
+
 if __name__ == '__main__':
     unittest.main()
