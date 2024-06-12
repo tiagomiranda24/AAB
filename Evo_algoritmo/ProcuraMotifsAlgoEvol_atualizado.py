@@ -30,16 +30,16 @@ class Indiv:
        offsp1[pos:], offsp2[pos:] = offsp2[pos:], offsp1[pos:]# Troca os genes após o ponto de crossover
        return Indiv(len(self.genes), offsp1, self.lb, self.ub), Indiv(len(self.genes), offsp2, self.lb, self.ub) # Retorna dois novos indivíduos resultantes do crossover
 
-
-class Popul:  
  
-    def __init__(self, popsize, indsize,indivs=[]): # Método construtor da classe Popul
+ 
+class Popul:  
+    def __init__(self, popsize, indsize, indivs=[]): # Método construtor da classe Popul
         self.popsize = popsize  # Define o tamanho da população
         self.indsize = indsize # Define o tamanho dos indivíduos
         self.indivs = indivs if indivs is not None else []   # Lista de indivíduos na população
 
         if not self.indivs: #Se não houver indivíduos fornecidos
-            self.randomPopul() # Inicializa a população aleatoriamente
+            self.initRandomPop() # Inicializa a população aleatoriamente
 
     def getIndiv(self, index):  # Método para obter um indivíduo pelo índice
         return self.indivs[index] # Retorna o indivíduo na posição especificada
@@ -70,7 +70,7 @@ class Popul:
         return selected_indices # Retorna a lista de índices dos indivíduos selecionados
     def roulette(self, f): # Método para realizar a seleção via roleta
         tot = sum(f) # Soma das aptidões
-        val = random()# Valor aleatório para a roleta
+        val = random.random()# Valor aleatório para a roleta
         acum = 0.0 # Acumulador
         ind = 0 # Índice inicial
         while acum < val: 
@@ -109,13 +109,18 @@ class Popul:
                 ind_offsp += 1# Incrementa o índice dos descendentes
 
 class EvolAlgorithm:
-    def __init__(self, popsize, numits,noffspring, indsize):  # Método construtor da classe EvolAlgorithm
+    def __init__(self, popsize, numits, noffspring, indsize):  # Método construtor da classe EvolAlgorithm
         self.popsize = popsize # Define o tamanho da população
         self.numits = numits # Define o número de iterações
         self.noffspring = noffspring # Define o número de descendentes por iteração
         self.indsize = indsize # Define o tamanho dos indivíduos
-    def initPopul(self, indsize): # Método para inicializar a população
+        self.initPopul(self.indsize) # Inicializa a população
+
+    
+    def initPopul(self, indsize):
+        # Método para inicializar a população
         self.popul = Popul(self.popsize, indsize)  # Cria uma nova população
+
 
     def evaluate(self, indivs):  # Método para avaliar a aptidão de cada indivíduo
         for i in range(len(indivs)):
@@ -124,69 +129,16 @@ class EvolAlgorithm:
             ind.fitness = fit# Define a aptidão do indivíduo
     
     def iteration(self):  # Método para realizar uma iteração do algoritmo
+        self.evaluate(self.popul.indivs)  # Avalia a aptidão dos indivíduos
         parents = self.popul.selection(self.noffspring)  # Seleciona os pais
         offspring = self.popul.recombination(parents, self.noffspring) # Realiza a recombinação para gerar descendentes
-        self.evaluate(offspring) # Avalia os descendentes
         self.popul.reinsertion(offspring) # Reinsere os descendentes na população
+    
     def run(self):   # Método para executar o algoritmo evolutivo
-        self.initPopul(self.indsize) # Inicializa a população
-        self.evaluate(self.popul.indivs)  # Avalia a população inicial
         self.bestsol = self.popul.bestSolution()
-        for i in range(self.numits+1):
+        for i in range(self.numits):
             self.iteration()
             bs = self.popul.bestSolution()
             if bs > self.bestsol:
                 self.bestsol = bs
             print("Iteration:", i, " ", "Best: ", self.bestsol )
-
-class IndivInt (Indiv):  # Classe que herda da classe Indiv e representa indivíduos com genes inteiros
-    def initRandom(self, size): # Método para inicializar aleatoriamente os genes do indivíduo
-        self.genes = [] # Inicializa a lista de genes vazia
-        for _ in range(size): # Para cada posição no tamanho especificado
-            self.genes.append(randint(0, self.ub)) # Adiciona um valor inteiro aleatório entre 0 e o limite superior (ub)
-    def mutation(self): # Método para realizar a mutação de um gene aleatório
-        s = len(self.genes) # Obtém o tamanho da lista de genes
-        pos = randint(0, s-1) # Escolhe uma posição aleatória para mutação
-        self.genes[pos] = randint(0, self.ub)  # Substitui o gene nessa posição por um valor inteiro aleatório
-
-class PopulInt(Popul):
-    # Classe que herda da classe Popul e representa uma população de indivíduos com genes inteiros
-    def __init__(self, popsize, indsize, ub, indivs=[]):
-        self.ub = ub  # Define o limite superior para os genes
-        Popul.__init__(self, popsize, indsize, indivs)  # Chama o construtor da classe base Popul
-    
-    def initRandomPop(self):
-        # Método para inicializar a população com indivíduos aleatórios
-        self.indivs = []  # Inicializa a lista de indivíduos vazia
-        for _ in range(self.popsize):
-            # Para cada posição no tamanho da população
-            indiv_i = IndivInt(self.indsize, [], 0, self.ub)  # Cria um novo indivíduo com genes inteiros
-            self.indivs.append(indiv_i)  # Adiciona o novo indivíduo à população
-
-
-class EAMotifsInt(EvolAlgorithm):
-    # Classe que herda da classe EvolAlgorithm e implementa um algoritmo evolutivo para encontrar motivos em sequências de DNA
-    def __init__(self, popsize, numits, noffspring, filename):
-        self.motifs = MotifFinding()  # Inicializa um objeto de MotifFinding
-        self.motifs.readFile(filename, "dna")  # Lê o arquivo com as sequências de DNA
-        indsize = len(self.motifs)  # Define o tamanho dos indivíduos com base no tamanho dos motivos
-        EvolAlgorithm.__init__(self, popsize, numits, noffspring, indsize)  # Chama o construtor da classe base EvolAlgorithm
-    
-    def initPopul(self, indsize):
-        # Método para inicializar a população
-        maxvalue = self.motifs.seqSize(0) - self.motifs.motifSize  # Calcula o valor máximo para os genes
-        self.popul = PopulInt(self.popsize, indsize, maxvalue, [])  # Cria uma nova população de indivíduos com genes inteiros
-    
-    def evaluate(self, indivs):
-        # Método para avaliar a aptidão de cada indivíduo
-        for i in range(len(indivs)):
-            ind = indivs[i]  # Obtém o indivíduo na posição i
-            sol = ind.getGenes()  # Obtém os genes do indivíduo
-            fit = self.motifs.score(sol)  # Calcula a aptidão do indivíduo com base na pontuação dos motivos
-            ind.setFitness(fit)  # Define a aptidão do indivíduo
-
-
-
-
-
-
