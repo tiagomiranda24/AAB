@@ -2,7 +2,7 @@
 author: miguelrocha
 """
 
-from typing import Union, List, Dict  # Importa tipos de dados da biblioteca typing para uso nas anotações de tipo
+from typing import Union, List, Dict, Tuple  # Importa tipos de dados da biblioteca typing para uso nas anotações de tipo
 import graphviz  # Importa a biblioteca graphviz para visualização de grafos
 import pandas as pd  # Importa a biblioteca pandas para manipulação de dados
 
@@ -142,3 +142,56 @@ class GrafoDirigido:  # Define uma classe para representar um grafo dirigido
                 fila.extend(self.obter_sucessores(atual))  # Adiciona os sucessores do nó à fila
 
         return visitados  # Retorna a lista de nós visitados
+
+
+    def dijkstra(self, inicio: str) -> Dict[str, float]:
+        distancias = {no: float('inf') for no in self.estrutura}
+        distancias[inicio] = 0
+        pq = [(0, inicio)]
+        
+        while pq:
+            distancia_atual, no_atual = heapq.heappop(pq)
+            
+            if distancia_atual > distancias[no_atual]:
+                continue
+
+            for vizinho, peso in self.estrutura[no_atual]:
+                distancia = distancia_atual + peso
+                if distancia < distancias[vizinho]:
+                    distancias[vizinho] = distancia
+                    heapq.heappush(pq, (distancia, vizinho))
+        
+        return distancias
+
+    def caminho_mais_curto(self, inicio: str, fim: str) -> List[str]:
+        distancias, pais = self.dijkstra_com_caminho(inicio)
+        caminho = []
+        atual = fim
+        
+        while atual is not None:
+            caminho.append(atual)
+            atual = pais[atual]
+        
+        caminho.reverse()
+        return caminho
+
+    def dijkstra_com_caminho(self, inicio: str) -> Tuple[Dict[str, float], Dict[str, Union[str, None]]]:
+        distancias = {no: float('inf') for no in self.estrutura}
+        pais = {no: None for no in self.estrutura}
+        distancias[inicio] = 0
+        pq = [(0, inicio)]
+        
+        while pq:
+            distancia_atual, no_atual = heapq.heappop(pq)
+            
+            if distancia_atual > distancias[no_atual]:
+                continue
+
+            for vizinho, peso in self.estrutura[no_atual]:
+                distancia = distancia_atual + peso
+                if distancia < distancias[vizinho]:
+                    distancias[vizinho] = distancia
+                    pais[vizinho] = no_atual
+                    heapq.heappush(pq, (distancia, vizinho))
+        
+        return distancias, pais
